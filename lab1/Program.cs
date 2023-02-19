@@ -1,4 +1,5 @@
-﻿// TODO. Clean code.
+﻿// TODO. Try DRY as Denis've done.
+// TODO. Add 'default' value for methods with 'ByInput' keyword.
 
 using System;
 
@@ -108,6 +109,24 @@ namespace FirstLab
             }
         }
 
+        static void ShowTypeInfoByInput()
+        {
+            while (true)
+            {
+                char inputedKey = char.ToLower(Console.ReadKey().KeyChar);
+                switch (inputedKey)
+                {
+                    case '1':
+                        Type choosenType = typeof(int);
+                        ShowSelectedTypeInfo(choosenType);
+                        break;
+                    case '0':
+                        StartApp();
+                        break;
+                }
+            }
+        }
+
         static void StartApp()
         {
             ShowConsoleMenu();
@@ -117,6 +136,7 @@ namespace FirstLab
         static void SelectType()
         {
             ShowStandardTypes();
+            ShowTypeInfoByInput();
         }
 
         static void ChangeBackgroundColor()
@@ -135,6 +155,38 @@ namespace FirstLab
         {
             ShowStandardColors();
             ChangeTextColorByInput();
+        }
+
+        static void ShowSelectedTypeInfo(Type choosenType)
+        {
+            string fields = string.Join(
+                ", ",
+                choosenType.GetFields().Select(field => field.Name)
+            );
+
+            string properties = string.Join(
+                ", ",
+                choosenType.GetProperties().Select(field => field.Name)
+            );
+
+            int elementsAmount = choosenType.GetMethods().Length +
+                choosenType.GetProperties().Length +
+                choosenType.GetFields().Length;
+            
+
+            Console.Clear();
+            Console.WriteLine(
+                $"Информация по типу: {choosenType} \n" +
+                $"    Значимый тип: {(choosenType.IsValueType ? '+' : '-')} \n" +
+                $"    Пространство имен: {choosenType.Namespace} \n" +
+                $"    Сборка: {choosenType.Assembly.GetName().Name} \n" +
+                $"    Общее число элементов: {elementsAmount} \n" +
+                $"    Число методов: {choosenType.GetMethods().Length} \n" +
+                $"    Число свойств: {choosenType.GetProperties().Length} \n" +
+                $"    Число полей: {choosenType.GetFields().Length} \n" +
+                $"    Список полей: {fields}\n" +
+                $"    Список свойств: {properties}\n" 
+            );
         }
 
         static void ShowStandardTypes()
