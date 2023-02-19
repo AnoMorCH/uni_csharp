@@ -2,7 +2,7 @@
 
 using System;
 
-namespace FirstLab // Note: actual namespace depends on the project name.
+namespace FirstLab
 {
     internal class Program
     {
@@ -12,17 +12,18 @@ namespace FirstLab // Note: actual namespace depends on the project name.
         }
 
 
-        static void ConsoleMenuWaitInput() {
-            while(true)
+        static void ConsoleMenuByInput()
+        {
+            while (true)
             {
-                char inputedKey = char.ToLower(Console.ReadKey().KeyChar); 
-                switch(inputedKey)
+                char inputedKey = char.ToLower(Console.ReadKey().KeyChar);
+                switch (inputedKey)
                 {
-                    case '1': 
+                    case '1':
                         // ShowAllTypeInfo();
                         break;
                     case '2':
-                        // SelectType();
+                        SelectType();
                         break;
                     case '3':
                         ChangeConsoleView();
@@ -33,11 +34,12 @@ namespace FirstLab // Note: actual namespace depends on the project name.
             }
         }
 
-        static void ChangeConsoleViewWaitInput() {
-            while(true) 
+        static void ChangeConsoleViewByInput()
+        {
+            while (true)
             {
-                char inputedKey = char.ToLower(Console.ReadKey().KeyChar); 
-                switch(inputedKey)
+                char inputedKey = char.ToLower(Console.ReadKey().KeyChar);
+                switch (inputedKey)
                 {
                     case '1':
                         StartApp();
@@ -52,11 +54,12 @@ namespace FirstLab // Note: actual namespace depends on the project name.
             }
         }
 
-        static void ChangeTextColorByInput() {
+        static void ChangeTextColorByInput()
+        {
             while (true)
             {
-                char inputedKey = char.ToLower(Console.ReadKey().KeyChar); 
-                switch(inputedKey) 
+                char inputedKey = char.ToLower(Console.ReadKey().KeyChar);
+                switch (inputedKey)
                 {
                     case '1':
                         Console.ForegroundColor = ConsoleColor.White;
@@ -78,11 +81,12 @@ namespace FirstLab // Note: actual namespace depends on the project name.
             }
         }
 
-        static void ChangeBackgroundColorByInput() {
+        static void ChangeBackgroundColorByInput()
+        {
             while (true)
             {
-                char inputedKey = char.ToLower(Console.ReadKey().KeyChar); 
-                switch(inputedKey) 
+                char inputedKey = char.ToLower(Console.ReadKey().KeyChar);
+                switch (inputedKey)
                 {
                     case '1':
                         Console.BackgroundColor = ConsoleColor.White;
@@ -104,10 +108,15 @@ namespace FirstLab // Note: actual namespace depends on the project name.
             }
         }
 
-        static void StartApp() 
+        static void StartApp()
         {
             ShowConsoleMenu();
-            ConsoleMenuWaitInput();
+            ConsoleMenuByInput();
+        }
+
+        static void SelectType()
+        {
+            ShowStandardTypes();
         }
 
         static void ChangeBackgroundColor()
@@ -116,16 +125,34 @@ namespace FirstLab // Note: actual namespace depends on the project name.
             ChangeBackgroundColorByInput();
         }
 
-        static void ChangeConsoleView() 
+        static void ChangeConsoleView()
         {
             ShowChangeConsoleViewMenu();
-            ChangeConsoleViewWaitInput();
+            ChangeConsoleViewByInput();
         }
 
         static void ChangeTextColor()
         {
             ShowStandardColors();
             ChangeTextColorByInput();
+        }
+
+        static void ShowStandardTypes()
+        {
+            Console.Clear();
+            Console.WriteLine("Информация по типам");
+            Console.WriteLine("Выберите тип:");
+            Console.WriteLine("---------------------------");
+            Console.WriteLine("    1 - uint");
+            Console.WriteLine("    2 - int");
+            Console.WriteLine("    3 - long");
+            Console.WriteLine("    4 - float");
+            Console.WriteLine("    5 - double");
+            Console.WriteLine("    6 - char");
+            Console.WriteLine("    7 - string");
+            Console.WriteLine("    8 - Vector");
+            Console.WriteLine("    9 - Matrix");
+            Console.WriteLine("    0 - Выход в главное меню");
         }
 
         static void ShowStandardColors()
@@ -139,7 +166,7 @@ namespace FirstLab // Note: actual namespace depends on the project name.
         }
 
         static void ShowConsoleMenu()
-        {   
+        {
             Console.Clear();
             Console.WriteLine("Информация по типам");
             Console.WriteLine("1 - Общая информация по типам");
@@ -148,7 +175,7 @@ namespace FirstLab // Note: actual namespace depends on the project name.
             Console.WriteLine("0 - Выход из программы");
         }
 
-        static void ShowChangeConsoleViewMenu() 
+        static void ShowChangeConsoleViewMenu()
         {
             Console.Clear();
             Console.WriteLine("Выберите пункт");
