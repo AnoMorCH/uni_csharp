@@ -144,6 +144,7 @@ namespace FirstLab
                     case 'm':
                         var typeData = GetTypeData(choosenType);
                         showTypeData(choosenType, typeData);
+                        GoHomeByInput();
                         break;
                     case '0':
                         StartApp();
@@ -217,19 +218,6 @@ namespace FirstLab
                 }
                 Console.Write("\n");
             }
-
-            Console.WriteLine("Нажмите '0', чтобы перейти в главное меню");
-
-            while (true)
-            {
-                char inputedKey = char.ToLower(Console.ReadKey().KeyChar);
-                switch (inputedKey)
-                {
-                    case '0':
-                        StartApp();
-                        break;
-                }
-            }
         }
 
         static void SelectType()
@@ -289,6 +277,22 @@ namespace FirstLab
                 $"Нажмите 'M' для вывода дополнительной информации по методам: \n" +
                 $"Нажмите '0' для выхода в главное меню"
             );
+        }
+
+        static void GoHomeByInput()
+        {
+            Console.WriteLine("Нажмите '0', чтобы перейти в главное меню");
+
+            while (true)
+            {
+                char inputedKey = char.ToLower(Console.ReadKey().KeyChar);
+                switch (inputedKey)
+                {
+                    case '0':
+                        StartApp();
+                        break;
+                }
+            }
         }
 
         static void ShowStandardTypes()
