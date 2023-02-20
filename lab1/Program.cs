@@ -1,5 +1,4 @@
-﻿// TODO. Try DRY as Denis've done.
-// TODO. Add 'default' value for methods with 'ByInput' keyword.
+﻿// TODO. Add 'default' value for methods with 'ByInput' keyword.
 
 using System;
 
@@ -10,6 +9,12 @@ namespace FirstLab
         static void Main(string[] args)
         {
             StartApp();
+        }
+
+        static void StartApp()
+        {
+            ShowConsoleMenu();
+            ConsoleMenuByInput();
         }
 
 
@@ -128,11 +133,6 @@ namespace FirstLab
             }
         }
 
-        static void StartApp()
-        {
-            ShowConsoleMenu();
-            ConsoleMenuByInput();
-        }
 
         static void ShowAdditionalTypeInfoByInput(Type choosenType)
         {
@@ -143,7 +143,7 @@ namespace FirstLab
                 {
                     case 'm':
                         var typeData = GetTypeData(choosenType);
-                        showTypeData(choosenType, typeData);
+                        ShowTypeData(choosenType, typeData);
                         GoHomeByInput();
                         break;
                     case '0':
@@ -154,11 +154,57 @@ namespace FirstLab
             }
         }
 
-        // TODO. Clean code.
+        static void GoHomeByInput()
+        {
+            Console.WriteLine("Нажмите '0', чтобы перейти в главное меню");
+
+            while (true)
+            {
+                char inputedKey = char.ToLower(Console.ReadKey().KeyChar);
+                switch (inputedKey)
+                {
+                    case '0':
+                        StartApp();
+                        break;
+                }
+            }
+        }
+
         static Dictionary<string, Dictionary<string, int>> GetTypeData(Type type)
         {
-            var allMethods = type.GetMethods();
+            void UpdateExistingParameter(
+                int paramAmount, 
+                Dictionary<string, Dictionary<string, int>> data,
+                System.Reflection.MethodInfo method
+            )
+            {
+                data[method.Name]["overloads"]++;
+
+                if (data[method.Name]["minParamAmount"] > paramAmount)
+                {
+                    data[method.Name]["minParamAmount"] = paramAmount;
+                }
+
+                if (data[method.Name]["maxParamAmount"] < paramAmount)
+                {
+                    data[method.Name]["maxParamAmount"] = paramAmount;
+                }
+            }
+
+            void AddAnotherParameter(
+                int paramAmount, 
+                Dictionary<string, Dictionary<string, int>> data,
+                System.Reflection.MethodInfo method
+            ) {
+                var methodData = new Dictionary<string, int>();
+                methodData.Add("overloads", 1);
+                methodData.Add("minParamAmount", paramAmount);
+                methodData.Add("maxParamAmount", paramAmount);
+                data.Add(method.Name, methodData);
+            }
+
             var data = new Dictionary<string, Dictionary<string, int>>();
+            var allMethods = type.GetMethods();
 
             foreach (var method in allMethods)
             {
@@ -166,58 +212,62 @@ namespace FirstLab
 
                 if (data.ContainsKey(method.Name))
                 {
-                    data[method.Name]["overloads"]++;
-
-                    if (data[method.Name]["minParamAmount"] > paramAmount)
-                    {
-                        data[method.Name]["minParamAmount"] = paramAmount;
-                    }
-
-                    if (data[method.Name]["maxParamAmount"] < paramAmount)
-                    {
-                        data[method.Name]["maxParamAmount"] = paramAmount;
-                    }
+                    UpdateExistingParameter(paramAmount, data, method);
                 }
                 else
                 {
-                    var methodData = new Dictionary<string, int>();
-                    methodData.Add("overloads", 1);
-                    methodData.Add("minParamAmount", paramAmount);
-                    methodData.Add("maxParamAmount", paramAmount);
-                    data.Add(method.Name, methodData);
+                    AddAnotherParameter(paramAmount, data, method);
                 }
             }
 
             return data;
         }
 
-        static void showTypeData(Type type, Dictionary<string, Dictionary<string, int>> data)
+        static void ShowTypeData(Type type, Dictionary<string, Dictionary<string, int>> data)
         {
+            bool DoesMethodHaveOnlyOneParam(string key)
+            {
+                return data[key]["minParamAmount"] == data[key]["maxParamAmount"];
+            }
+
+            void ShowHeader(int columnWidth) {
+                string header = $"Методы типа {type} \n" +
+                    $"{"Название".PadRight(columnWidth)}" +
+                    $"{"Число перегрузок".PadRight(columnWidth)}" +
+                    $"{"Число параметров".PadRight(columnWidth)}";
+
+                Console.WriteLine(header);
+            }
+
+            void ShowData(int columnWidth)
+            {
+                foreach (string param in data.Keys)
+                {
+                    string paramName = $"{param}".PadRight(columnWidth);
+                    string overloadsAmount = $"{data[param]["overloads"]}".PadRight(columnWidth);
+                    string paramsAmount = "";
+
+                    if (DoesMethodHaveOnlyOneParam(param))
+                    {
+                        paramsAmount = $"{data[param]["minParamAmount"]}".PadRight(columnWidth);
+                    }
+                    else
+                    {
+                        paramsAmount = $"{data[param]["minParamAmount"]}" +
+                            ".." +
+                            $"{data[param]["maxParamAmount"]}".PadRight(columnWidth);
+                    }
+
+                    string paramData = paramName + overloadsAmount + paramsAmount;
+                        
+                    Console.Write($"{paramData} \n");
+                }
+            }
+
             Console.Clear();
             int columnWidth = 20;
-            Console.WriteLine(
-                $"Методы типа {type} \n" +
-                $"{"Название".PadRight(columnWidth)}" +
-                $"{"Число перегрузок".PadRight(columnWidth)}" +
-                $"{"Число параметров".PadRight(columnWidth)}"
-            );
-            foreach (var key in data.Keys)
-            {
-                Console.Write(
-                    $"{key}".PadRight(columnWidth) +
-                    $"{data[key]["overloads"]}".PadRight(columnWidth)
-                );
-
-                if (data[key]["minParamAmount"] == data[key]["maxParamAmount"])
-                {
-                    Console.Write($"{data[key]["minParamAmount"]}".PadRight(columnWidth));
-                }
-                else
-                {
-                    Console.Write($"{data[key]["minParamAmount"]}..{data[key]["maxParamAmount"]}".PadRight(columnWidth));
-                }
-                Console.Write("\n");
-            }
+            ShowHeader(columnWidth);
+            ShowData(columnWidth);
         }
 
         static void SelectType()
@@ -279,67 +329,60 @@ namespace FirstLab
             );
         }
 
-        static void GoHomeByInput()
-        {
-            Console.WriteLine("Нажмите '0', чтобы перейти в главное меню");
-
-            while (true)
-            {
-                char inputedKey = char.ToLower(Console.ReadKey().KeyChar);
-                switch (inputedKey)
-                {
-                    case '0':
-                        StartApp();
-                        break;
-                }
-            }
-        }
 
         static void ShowStandardTypes()
         {
             Console.Clear();
-            Console.WriteLine("Информация по типам");
-            Console.WriteLine("Выберите тип:");
-            Console.WriteLine("---------------------------");
-            Console.WriteLine("    1 - uint");
-            Console.WriteLine("    2 - int");
-            Console.WriteLine("    3 - long");
-            Console.WriteLine("    4 - float");
-            Console.WriteLine("    5 - double");
-            Console.WriteLine("    6 - char");
-            Console.WriteLine("    7 - string");
-            Console.WriteLine("    8 - Vector");
-            Console.WriteLine("    9 - Matrix");
-            Console.WriteLine("    0 - Выход в главное меню");
+            Console.WriteLine(
+                "Информация по типам \n" +
+                "Выберите тип: \n" +
+                "--------------------------- \n" +
+                "    1 - uint \n" +
+                "    2 - int \n" +
+                "    3 - long \n" +
+                "    4 - float \n" +
+                "    5 - double \n" +
+                "    6 - char \n" +
+                "    7 - string \n" +
+                "    8 - Vector \n" +
+                "    9 - Matrix \n" +
+                "    0 - Выход в главное меню"
+            );
         }
 
         static void ShowStandardColors()
         {
             Console.Clear();
-            Console.WriteLine("Выберите цвет");
-            Console.WriteLine("1 - Белый");
-            Console.WriteLine("2 - Синий");
-            Console.WriteLine("3 - Красный");
-            Console.WriteLine("4 - Черный");
+            Console.WriteLine(
+                "Выберите цвет \n" +
+                "1 - Белый \n" +
+                "2 - Синий \n" +
+                "3 - Красный \n" +
+                "4 - Черный \n"
+            );
         }
 
         static void ShowConsoleMenu()
         {
             Console.Clear();
-            Console.WriteLine("Информация по типам");
-            Console.WriteLine("1 - Общая информация по типам");
-            Console.WriteLine("2 - Выбрать тип из списка");
-            Console.WriteLine("3 - Параметры консоли");
-            Console.WriteLine("0 - Выход из программы");
+            Console.WriteLine(
+                "Информация по типам \n" +
+                "1 - Общая информация по типам \n" +
+                "2 - Выбрать тип из списка \n" +
+                "3 - Параметры консоли \n" +
+                "0 - Выход из программы \n"
+            );
         }
 
         static void ShowChangeConsoleViewMenu()
         {
             Console.Clear();
-            Console.WriteLine("Выберите пункт");
-            Console.WriteLine("1 - Вернуться в меню");
-            Console.WriteLine("2 - Изменить цвет шрифта");
-            Console.WriteLine("3 - Изменить цвет фона");
+            Console.WriteLine(
+                "Выберите пункт \n" +
+                "1 - Вернуться в меню \n" +
+                "2 - Изменить цвет шрифта \n" +
+                "3 - Изменить цвет фона \n"
+            );
         }
     }
 }
