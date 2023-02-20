@@ -1,6 +1,6 @@
-﻿// TODO. Add 'default' value for methods with 'ByInput' keyword.
+﻿// TODO. Think about separating the project on multiple files to improve readability.
 
-using System;
+using System.Numerics;
 
 namespace FirstLab
 {
@@ -118,17 +118,45 @@ namespace FirstLab
         {
             while (true)
             {
+                Type choosenType = null;
                 char inputedKey = char.ToLower(Console.ReadKey().KeyChar);
                 switch (inputedKey)
                 {
                     case '1':
-                        Type choosenType = typeof(int);
-                        ShowSelectedTypeInfo(choosenType);
-                        ShowAdditionalTypeInfoByInput(choosenType);
+                        choosenType = typeof(uint);
+                        break;
+                    case '2':
+                        choosenType = typeof(int);
+                        break;
+                    case '3':
+                        choosenType = typeof(long);
+                        break;
+                    case '4':
+                        choosenType = typeof(float);
+                        break;
+                    case '5':
+                        choosenType = typeof(double);
+                        break;
+                    case '6':
+                        choosenType = typeof(char);
+                        break;
+                    case '7':
+                        choosenType = typeof(string);
+                        break;
+                    case '8':
+                        choosenType = typeof(Vector);
+                        break;
+                    case '9':
+                        choosenType = typeof(Matrix4x4);
                         break;
                     case '0':
                         StartApp();
                         break;
+                }
+
+                if (choosenType is not null) {
+                    ShowSelectedTypeInfo(choosenType);
+                    ShowAdditionalTypeInfoByInput(choosenType);
                 }
             }
         }
@@ -265,7 +293,7 @@ namespace FirstLab
             }
 
             Console.Clear();
-            int columnWidth = 20;
+            int columnWidth = 30;
             ShowHeader(columnWidth);
             ShowData(columnWidth);
         }
