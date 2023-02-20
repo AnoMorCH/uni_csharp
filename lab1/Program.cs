@@ -119,6 +119,7 @@ namespace FirstLab
                     case '1':
                         Type choosenType = typeof(int);
                         ShowSelectedTypeInfo(choosenType);
+                        ShowAdditionalTypeInfoByInput(choosenType);
                         break;
                     case '0':
                         StartApp();
@@ -131,6 +132,104 @@ namespace FirstLab
         {
             ShowConsoleMenu();
             ConsoleMenuByInput();
+        }
+
+        static void ShowAdditionalTypeInfoByInput(Type choosenType)
+        {
+            while (true)
+            {
+                char inputedKey = char.ToLower(Console.ReadKey().KeyChar);
+                switch (inputedKey)
+                {
+                    case 'm':
+                        var typeData = GetTypeData(choosenType);
+                        showTypeData(choosenType, typeData);
+                        break;
+                    case '0':
+                        StartApp();
+                        break;
+                }
+
+            }
+        }
+
+        // TODO. Clean code.
+        static Dictionary<string, Dictionary<string, int>> GetTypeData(Type type)
+        {
+            var allMethods = type.GetMethods();
+            var data = new Dictionary<string, Dictionary<string, int>>();
+
+            foreach (var method in allMethods)
+            {
+                int paramAmount = method.GetParameters().Length;
+
+                if (data.ContainsKey(method.Name))
+                {
+                    data[method.Name]["overloads"]++;
+
+                    if (data[method.Name]["minParamAmount"] > paramAmount)
+                    {
+                        data[method.Name]["minParamAmount"] = paramAmount;
+                    }
+
+                    if (data[method.Name]["maxParamAmount"] < paramAmount)
+                    {
+                        data[method.Name]["maxParamAmount"] = paramAmount;
+                    }
+                }
+                else
+                {
+                    var methodData = new Dictionary<string, int>();
+                    methodData.Add("overloads", 1);
+                    methodData.Add("minParamAmount", paramAmount);
+                    methodData.Add("maxParamAmount", paramAmount);
+                    data.Add(method.Name, methodData);
+                }
+            }
+
+            return data;
+        }
+
+        static void showTypeData(Type type, Dictionary<string, Dictionary<string, int>> data)
+        {
+            Console.Clear();
+            int columnWidth = 20;
+            Console.WriteLine(
+                $"Методы типа {type} \n" +
+                $"{"Название".PadRight(columnWidth)}" +
+                $"{"Число перегрузок".PadRight(columnWidth)}" +
+                $"{"Число параметров".PadRight(columnWidth)}"
+            );
+            foreach (var key in data.Keys)
+            {
+                Console.Write(
+                    $"{key}".PadRight(columnWidth) +
+                    $"{data[key]["overloads"]}".PadRight(columnWidth)
+                );
+
+                if (data[key]["minParamAmount"] == data[key]["maxParamAmount"])
+                {
+                    Console.Write($"{data[key]["minParamAmount"]}".PadRight(columnWidth));
+                }
+                else
+                {
+                    Console.Write($"{data[key]["minParamAmount"]}..{data[key]["maxParamAmount"]}".PadRight(columnWidth));
+                }
+                Console.Write("\n");
+            }
+
+            Console.WriteLine("Нажмите '0', чтобы перейти в главное меню");
+
+            while (true)
+            {
+                char inputedKey = char.ToLower(Console.ReadKey().KeyChar);
+                switch (inputedKey)
+                {
+                    case '0':
+                        StartApp();
+                        break;
+                }
+            }
         }
 
         static void SelectType()
@@ -157,35 +256,38 @@ namespace FirstLab
             ChangeTextColorByInput();
         }
 
-        static void ShowSelectedTypeInfo(Type choosenType)
+        static void ShowSelectedTypeInfo(Type type)
         {
             string fields = string.Join(
                 ", ",
-                choosenType.GetFields().Select(field => field.Name)
+                type.GetFields().Select(field => field.Name)
             );
 
             string properties = string.Join(
                 ", ",
-                choosenType.GetProperties().Select(field => field.Name)
+                type.GetProperties().Select(field => field.Name)
             );
 
-            int elementsAmount = choosenType.GetMethods().Length +
-                choosenType.GetProperties().Length +
-                choosenType.GetFields().Length;
-            
+            int elementsAmount = type.GetMethods().Length +
+                type.GetProperties().Length +
+                type.GetFields().Length;
+
 
             Console.Clear();
             Console.WriteLine(
-                $"Информация по типу: {choosenType} \n" +
-                $"    Значимый тип: {(choosenType.IsValueType ? '+' : '-')} \n" +
-                $"    Пространство имен: {choosenType.Namespace} \n" +
-                $"    Сборка: {choosenType.Assembly.GetName().Name} \n" +
+                $"Информация по типу: {type} \n" +
+                $"    Значимый тип: {(type.IsValueType ? '+' : '-')} \n" +
+                $"    Пространство имен: {type.Namespace} \n" +
+                $"    Сборка: {type.Assembly.GetName().Name} \n" +
                 $"    Общее число элементов: {elementsAmount} \n" +
-                $"    Число методов: {choosenType.GetMethods().Length} \n" +
-                $"    Число свойств: {choosenType.GetProperties().Length} \n" +
-                $"    Число полей: {choosenType.GetFields().Length} \n" +
+                $"    Число методов: {type.GetMethods().Length} \n" +
+                $"    Число свойств: {type.GetProperties().Length} \n" +
+                $"    Число полей: {type.GetFields().Length} \n" +
                 $"    Список полей: {fields}\n" +
-                $"    Список свойств: {properties}\n" 
+                $"    Список свойств: {properties}\n" +
+                "\n" +
+                $"Нажмите 'M' для вывода дополнительной информации по методам: \n" +
+                $"Нажмите '0' для выхода в главное меню"
             );
         }
 
