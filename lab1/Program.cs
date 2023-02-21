@@ -1,6 +1,4 @@
-﻿// TODO. Think about separating the project on multiple files to improve readability.
-
-using System.Numerics;
+﻿using System.Numerics;
 using System.Reflection;
 
 namespace FirstLab
@@ -10,12 +8,6 @@ namespace FirstLab
         static void Main(string[] args)
         {
             StartApp();
-        }
-
-        static void StartApp()
-        {
-            ShowConsoleMenu();
-            ConsoleMenuByInput();
         }
 
         static int GetTaskOption(char nameFirstChar, char surnameFirstChar)
@@ -39,7 +31,8 @@ namespace FirstLab
                     case '3':
                         ChangeConsoleView();
                         break;
-                    default:
+                    case '0':
+                        Environment.Exit(0);
                         break;
                 }
             }
@@ -53,13 +46,13 @@ namespace FirstLab
                 switch (inputedKey)
                 {
                     case '1':
-                        StartApp();
-                        break;
-                    case '2':
                         ChangeTextColor();
                         break;
-                    case '3':
+                    case '2':
                         ChangeBackgroundColor();
+                        break;
+                    case '0':
+                        StartApp();
                         break;
                 }
             }
@@ -190,14 +183,14 @@ namespace FirstLab
 
         static void GoHomeByInput()
         {
-            Console.WriteLine("Нажмите любую клавишу, чтобы вернуться в главное меню");
+            Console.WriteLine("Нажмите клавишу '0', чтобы вернуться в главное меню");
 
             while (true)
             {
                 char inputedKey = char.ToLower(Console.ReadKey().KeyChar);
                 switch (inputedKey)
                 {
-                    default:
+                    case '0':
                         StartApp();
                         break;
                 }
@@ -306,6 +299,12 @@ namespace FirstLab
             ShowData(columnWidth);
         }
 
+        static void StartApp()
+        {
+            ShowConsoleMenu();
+            ConsoleMenuByInput();
+        }
+
         static void SelectType()
         {
             ShowStandardTypes();
@@ -334,6 +333,7 @@ namespace FirstLab
         {
             ShowCommonInfo();
             ShowTaskOption();
+            GoHomeByInput();
         }
 
         static void ShowCommonInfo()
@@ -363,6 +363,7 @@ namespace FirstLab
 
             int totalTypesNumber = refTypesNumber + valueTypesNumber;
 
+            Console.Clear();
             Console.WriteLine(
                 "Общая информация по типам \n" +
                 $"Подключенные сборки: {refAssemblies.Length} \n" +
@@ -457,9 +458,9 @@ namespace FirstLab
             Console.Clear();
             Console.WriteLine(
                 "Выберите пункт \n" +
-                "1 - Вернуться в меню \n" +
-                "2 - Изменить цвет шрифта \n" +
-                "3 - Изменить цвет фона \n"
+                "1 - Изменить цвет шрифта \n" +
+                "2 - Изменить цвет фона \n" +
+                "0 - Вернуться в меню \n"
             );
         }
 
