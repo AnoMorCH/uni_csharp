@@ -1,6 +1,7 @@
 ﻿// TODO. Think about separating the project on multiple files to improve readability.
 
 using System.Numerics;
+using System.Reflection;
 
 namespace FirstLab
 {
@@ -17,6 +18,10 @@ namespace FirstLab
             ConsoleMenuByInput();
         }
 
+        static int GetTaskOption(char nameFirstChar, char surnameFirstChar)
+        {
+            return (nameFirstChar + surnameFirstChar) % 10;
+        }
 
         static void ConsoleMenuByInput()
         {
@@ -26,7 +31,7 @@ namespace FirstLab
                 switch (inputedKey)
                 {
                     case '1':
-                        // ShowAllTypeInfo();
+                        ShowAllTypeInfo();
                         break;
                     case '2':
                         SelectType();
@@ -154,7 +159,8 @@ namespace FirstLab
                         break;
                 }
 
-                if (choosenType is not null) {
+                if (choosenType is not null)
+                {
                     ShowSelectedTypeInfo(choosenType);
                     ShowAdditionalTypeInfoByInput(choosenType);
                 }
@@ -184,14 +190,14 @@ namespace FirstLab
 
         static void GoHomeByInput()
         {
-            Console.WriteLine("Нажмите '0', чтобы перейти в главное меню");
+            Console.WriteLine("Нажмите любую клавишу, чтобы вернуться в главное меню");
 
             while (true)
             {
                 char inputedKey = char.ToLower(Console.ReadKey().KeyChar);
                 switch (inputedKey)
                 {
-                    case '0':
+                    default:
                         StartApp();
                         break;
                 }
@@ -201,7 +207,7 @@ namespace FirstLab
         static Dictionary<string, Dictionary<string, int>> GetTypeData(Type type)
         {
             void UpdateExistingParameter(
-                int paramAmount, 
+                int paramAmount,
                 Dictionary<string, Dictionary<string, int>> data,
                 System.Reflection.MethodInfo method
             )
@@ -220,10 +226,11 @@ namespace FirstLab
             }
 
             void AddAnotherParameter(
-                int paramAmount, 
+                int paramAmount,
                 Dictionary<string, Dictionary<string, int>> data,
                 System.Reflection.MethodInfo method
-            ) {
+            )
+            {
                 var methodData = new Dictionary<string, int>();
                 methodData.Add("overloads", 1);
                 methodData.Add("minParamAmount", paramAmount);
@@ -258,7 +265,8 @@ namespace FirstLab
                 return data[key]["minParamAmount"] == data[key]["maxParamAmount"];
             }
 
-            void ShowHeader(int columnWidth) {
+            void ShowHeader(int columnWidth)
+            {
                 string header = $"Методы типа {type} \n" +
                     $"{"Название".PadRight(columnWidth)}" +
                     $"{"Число перегрузок".PadRight(columnWidth)}" +
@@ -287,7 +295,7 @@ namespace FirstLab
                     }
 
                     string paramData = paramName + overloadsAmount + paramsAmount;
-                        
+
                     Console.Write($"{paramData} \n");
                 }
             }
@@ -320,6 +328,48 @@ namespace FirstLab
         {
             ShowStandardColors();
             ChangeTextColorByInput();
+        }
+
+        static void ShowAllTypeInfo()
+        {
+            ShowCommonInfo();
+            ShowTaskOption();
+        }
+
+        static void ShowCommonInfo()
+        {
+            Assembly[] refAssemblies = AppDomain.CurrentDomain.GetAssemblies();
+            List<Type> types = new();
+
+            int refTypesNumber = 0;
+            int valueTypesNumber = 0;
+
+            foreach (Assembly assembly in refAssemblies)
+            {
+                types.AddRange(assembly.GetTypes());
+            }
+
+            foreach (var type in types)
+            {
+                if (type.IsClass)
+                {
+                    refTypesNumber++;
+                }
+                else if (type.IsValueType)
+                {
+                    valueTypesNumber++;
+                }
+            }
+
+            int totalTypesNumber = refTypesNumber + valueTypesNumber;
+
+            Console.WriteLine(
+                "Общая информация по типам \n" +
+                $"Подключенные сборки: {refAssemblies.Length} \n" +
+                $"Всего типов по всем подключенным сборкам: {totalTypesNumber} \n" +
+                $"Ссылочные типы (только классы): {refTypesNumber} \n" +
+                $"Значимые типы: {valueTypesNumber} \n"
+            );
         }
 
         static void ShowSelectedTypeInfo(Type type)
@@ -410,6 +460,48 @@ namespace FirstLab
                 "1 - Вернуться в меню \n" +
                 "2 - Изменить цвет шрифта \n" +
                 "3 - Изменить цвет фона \n"
+            );
+        }
+
+        static void ShowTaskOption()
+        {
+            Assembly[] refAssemblies = AppDomain.CurrentDomain.GetAssemblies();
+            List<Type> types = new();
+
+            foreach (Assembly assembly in refAssemblies)
+            {
+                types.AddRange(assembly.GetTypes());
+            }
+
+            int typeTheLongestPropertyName = -1;
+            int theGreatestTypeFieldsAmount = -1;
+            string typeWithGreatesFieldsAmount = "";
+
+            foreach (var type in types)
+            {
+                var typeProperites = type.GetProperties();
+                int currentTypeFieldsAmount = type.GetFields().Length;
+
+                if (currentTypeFieldsAmount > theGreatestTypeFieldsAmount)
+                {
+                    typeWithGreatesFieldsAmount = type.ToString(); 
+                    theGreatestTypeFieldsAmount = currentTypeFieldsAmount;
+                }
+
+                foreach (var property in typeProperites)
+                {
+                    int currentPropertyNameLength = property.Name.Length;
+                    
+                    if (typeTheLongestPropertyName < currentPropertyNameLength) {
+                        typeTheLongestPropertyName = currentPropertyNameLength;
+                    }
+                }
+            }
+
+            Console.WriteLine(
+                $"Информация в соответствии с вариантом № {GetTaskOption('A', 'M')} \n" +
+                $"Самое длинное название свойства: {typeTheLongestPropertyName} \n" +
+                $"Тип с наибольшим числом полей: {typeWithGreatesFieldsAmount} \n"
             );
         }
     }
