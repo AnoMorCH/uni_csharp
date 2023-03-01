@@ -29,24 +29,41 @@ public class Matrix
         }
     }
 
-    public bool IsSquared()
-    {
-        return rowsAmount == columnsAmount;
-    }
-
-    public double this[int columnNumber, int rowNumber]
+    public double this[int columnIndex, int rowIndex]
     {
 
         get
         {
-            int index = rowNumber * columnsAmount + columnNumber;
+            int index = rowIndex * columnsAmount + columnIndex;
             return data[index];
         }
 
         set
         {
-            int index = rowNumber * columnsAmount + columnNumber;
+            int index = rowIndex * columnsAmount + columnIndex;
             data[index] = value;
         }
+    }
+
+    public bool IsSquared()
+    {
+        return rowsAmount == columnsAmount;
+    }
+
+    public bool IsEmpty()
+    {
+        for (int rowIndex = 0; rowIndex < rowsAmount; rowIndex++) 
+        {
+            for (int columnIndex = 0; columnIndex < columnsAmount; columnIndex++)
+            {
+                int index = rowIndex * columnsAmount + columnIndex;
+
+                if (data[index] != 0)
+                {   
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
