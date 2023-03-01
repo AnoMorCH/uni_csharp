@@ -82,7 +82,64 @@ namespace Matrix.UnitTests
             Matrix notEmptyMatrix = new Matrix(2, 4);
             notEmptyMatrix[1, 1] = 1;
             Assert.AreEqual(notEmptyMatrix.IsEmpty(), false);
+        }
 
+        [TestMethod]
+        public void doesIsUnityMethodWorkCorrectly1()
+        {
+            int diagonalLength = 3;
+            Matrix unitySquareMatrix = new Matrix(diagonalLength, diagonalLength);
+
+            for (int i = 0; i < diagonalLength; i++)
+            {
+                unitySquareMatrix[i, i] = 1;
+            } 
+
+            Assert.AreEqual(unitySquareMatrix.IsUnity(), true);
+        }
+
+        [TestMethod]
+        public void doesIsUnityMethodWorkCorrectly2()
+        {
+            int diagonalLength = 3;
+            Matrix nonUnitySquareMatrix = new Matrix(diagonalLength, diagonalLength);
+
+            for (int i = 0; i < diagonalLength; i++)
+            {
+                nonUnitySquareMatrix[i, i] = i;
+            } 
+
+            nonUnitySquareMatrix[0, 0] = 1234;
+
+            Assert.AreEqual(nonUnitySquareMatrix.IsUnity(), false);
+        }
+
+        [TestMethod]
+        public void doesIsUnityMethodWorkCorrectly3()
+        {
+            int diagonalLength = 3;
+            Matrix nonUnitySquareMatrix = new Matrix(diagonalLength, diagonalLength);
+
+            for (int i = 0; i < diagonalLength; i++)
+            {
+                nonUnitySquareMatrix[i, i] = i;
+            } 
+
+            Assert.AreEqual(nonUnitySquareMatrix.IsUnity(), false);
+        }
+
+        [TestMethod]
+        public void doesIsUnityMethodWorkCorrectly4()
+        {
+            int diagonalLength = 3;
+            Matrix nonUnitySquareMatrix = new Matrix(diagonalLength, 4);
+
+            for (int i = 0; i < diagonalLength; i++)
+            {
+                nonUnitySquareMatrix[i, i] = i;
+            } 
+
+            Assert.AreEqual(nonUnitySquareMatrix.IsUnity(), false);
         }
     }
 }
