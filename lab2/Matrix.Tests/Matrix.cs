@@ -51,7 +51,7 @@ namespace Matrix.UnitTests
         } 
 
         [TestMethod]
-        public void doesMatrixSquaredMethodWorkCorrectly()
+        public void doesIsSquaredMethodWorkCorrectly()
         {
             Matrix squaredMatrix = new Matrix(3, 3);
             Assert.AreEqual(squaredMatrix.IsSquared(), true);
@@ -71,6 +71,18 @@ namespace Matrix.UnitTests
 
             FieldInfo sizeInfo = typeof(Matrix).GetField("size");
             Assert.AreEqual(sizeInfo.IsInitOnly, true);
+        }
+
+        [TestMethod]
+        public void doesIsEmptyMethodWorkCorrectly()
+        {
+            Matrix emptyMatrix = new Matrix(2, 4);
+            Assert.AreEqual(emptyMatrix.IsEmpty(), true);
+
+            Matrix notEmptyMatrix = new Matrix(2, 4);
+            notEmptyMatrix[1, 1] = 1;
+            Assert.AreEqual(notEmptyMatrix.IsEmpty(), false);
+
         }
     }
 }
