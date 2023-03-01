@@ -5,10 +5,10 @@ namespace Matrix;
 
 public class Matrix
 {
-    public int rowsAmount;
-    public int columnsAmount;
-    public int? size;
-    double[] data;
+    public readonly int rowsAmount;
+    public readonly int columnsAmount;
+    public readonly int? size;
+    private double[] data;
 
 
     public Matrix(int columnsAmount, int rowsAmount)
