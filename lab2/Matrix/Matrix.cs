@@ -1,6 +1,8 @@
 ﻿// Fullname: Anton Morozov.
 // Task Option - 2. 
 
+// TODO. Check if a matrix with columnsAmount or rowsAmount equals zero.
+
 namespace Matrix;
 
 public class Matrix
@@ -22,8 +24,8 @@ public class Matrix
         if (IsSquared())
         {
             size = rowsAmount;
-        } 
-        else 
+        }
+        else
         {
             size = null;
         }
@@ -52,18 +54,48 @@ public class Matrix
 
     public bool IsEmpty()
     {
-        for (int rowIndex = 0; rowIndex < rowsAmount; rowIndex++) 
+        for (int rowIndex = 0; rowIndex < rowsAmount; rowIndex++)
         {
             for (int columnIndex = 0; columnIndex < columnsAmount; columnIndex++)
             {
                 int index = rowIndex * columnsAmount + columnIndex;
 
                 if (data[index] != 0)
-                {   
+                {
                     return false;
                 }
             }
         }
+        return true;
+    }
+
+    // Empty Cell Place is an index of a cell in data array where a value should be equal zero.
+    public bool IsUnity()
+    {
+        bool isEmptyCellPlace(int index, int edge)
+        {
+            int step = edge + 1;
+            return index % step != 0;
+        }
+
+        if (!IsSquared())
+        {
+            return false;
+        }
+
+        for (int i = 0; i < data.Length; i++) 
+        {
+            if (!isEmptyCellPlace(i, rowsAmount) && data[i] != 1)
+            {
+                return false;
+            }
+
+            if (isEmptyCellPlace(i, rowsAmount) && data[i] != 0)
+            {
+                return false;
+            }
+        }
+
         return true;
     }
 }
