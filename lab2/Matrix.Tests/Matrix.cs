@@ -35,5 +35,29 @@ namespace Matrix.UnitTests
             matrix[1, 2] = 5;
             Assert.AreEqual(matrix[1, 2], 5);
         }
+
+        [TestMethod]
+        public void isMatrixNotSquared()
+        {
+            Matrix matrix = new Matrix(2, 4);
+            Assert.AreEqual(matrix.size, null);
+        }
+
+        [TestMethod]
+        public void isMatrixSquared()
+        {
+            Matrix matrix = new Matrix(3, 3);
+            Assert.AreEqual(matrix.size, 3);
+        } 
+
+        [TestMethod]
+        public void doesMatrixSquaredMethodWorkCorrectly()
+        {
+            Matrix squaredMatrix = new Matrix(3, 3);
+            Assert.AreEqual(squaredMatrix.IsSquared(), true);
+
+            Matrix nonSquaredMatrix = new Matrix(2, 4);
+            Assert.AreEqual(nonSquaredMatrix.IsSquared(), false);
+        }
     }
 }
