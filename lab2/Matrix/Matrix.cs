@@ -1,9 +1,15 @@
-﻿namespace Matrix;
+﻿// Fullname: Anton Morozov.
+// Task Option - 2. 
+
+namespace Matrix;
+
 public class Matrix
 {
     public int rowsAmount;
     public int columnsAmount;
+    public int? size;
     double[] data;
+
 
     public Matrix(int columnsAmount, int rowsAmount)
     {
@@ -12,6 +18,20 @@ public class Matrix
         this.rowsAmount = rowsAmount;
         this.columnsAmount = columnsAmount;
         data = new double[dataLength];
+
+        if (IsSquared())
+        {
+            size = rowsAmount;
+        } 
+        else 
+        {
+            size = null;
+        }
+    }
+
+    public bool IsSquared()
+    {
+        return rowsAmount == columnsAmount;
     }
 
     public double this[int columnNumber, int rowNumber]
