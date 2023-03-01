@@ -59,5 +59,18 @@ namespace Matrix.UnitTests
             Matrix nonSquaredMatrix = new Matrix(2, 4);
             Assert.AreEqual(nonSquaredMatrix.IsSquared(), false);
         }
+
+        [TestMethod]
+        public void areMatrixDimensionsReadOnly()
+        {
+            FieldInfo rowsAmountInfo = typeof(Matrix).GetField("rowsAmount");
+            Assert.AreEqual(rowsAmountInfo.IsInitOnly, true);
+
+            FieldInfo columnsAmountInfo = typeof(Matrix).GetField("columnsAmount");
+            Assert.AreEqual(columnsAmountInfo.IsInitOnly, true);
+
+            FieldInfo sizeInfo = typeof(Matrix).GetField("size");
+            Assert.AreEqual(sizeInfo.IsInitOnly, true);
+        }
     }
 }
