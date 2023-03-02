@@ -72,6 +72,7 @@ public class Matrix
     // Empty Cell Place is an index of a cell in data array where a value should be equal zero.
     public bool IsUnity()
     {
+        // TODO. Delete it if not needed.
         bool isEmptyCellPlace(int index, int edge)
         {
             int step = edge + 1;
@@ -106,9 +107,9 @@ public class Matrix
             return false;
         }
 
-        for (int columnIndex = 1; columnIndex < columnsAmount - 1; columnIndex++)
+        for (int columnIndex = 1; columnIndex < columnsAmount; columnIndex++)
         {
-            for (int rowIndex = 0; rowIndex < columnIndex - 1; rowIndex++)
+            for (int rowIndex = 0; rowIndex < columnIndex; rowIndex++)
             {
                 int index = rowIndex * columnsAmount + columnIndex;
                 int transposedIndex = columnIndex * columnsAmount + rowIndex;
