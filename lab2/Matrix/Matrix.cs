@@ -98,4 +98,28 @@ public class Matrix
 
         return true;
     }
+
+    public bool IsSymmetric() 
+    {
+        if (!IsSquared()) 
+        {
+            return false;
+        }
+
+        for (int columnIndex = 1; columnIndex < columnsAmount - 1; columnIndex++)
+        {
+            for (int rowIndex = 0; rowIndex < columnIndex - 1; rowIndex++)
+            {
+                int index = rowIndex * columnsAmount + columnIndex;
+                int transposedIndex = columnIndex * columnsAmount + rowIndex;
+
+                if (data[index] != data[transposedIndex]) 
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
 }
