@@ -4,7 +4,7 @@ namespace Matrix.UnitTests
     public class MatrixUnitTests
     {
         [TestMethod]
-        public void doesCreatedMatrixHaveCorrectDimensions()
+        public void CreatedMatrixHasRightDimensions()
         {
             Matrix matrix = new Matrix(2, 4);
             Assert.AreEqual(2, matrix.columnsAmount);
@@ -12,7 +12,7 @@ namespace Matrix.UnitTests
         }
 
         [TestMethod]
-        public void isMatrixInitialized()
+        public void MatrixIsInitiated()
         {
             int columnsAmount = 2;
             int rowsAmount = 4;
@@ -85,7 +85,7 @@ namespace Matrix.UnitTests
         }
 
         [TestMethod]
-        public void doesIsUnityMethodWorkCorrectly1()
+        public void UnityMatrixIsUnityMatrix()
         {
             int diagonalLength = 3;
             Matrix unitySquareMatrix = new Matrix(diagonalLength, diagonalLength);
@@ -99,7 +99,7 @@ namespace Matrix.UnitTests
         }
 
         [TestMethod]
-        public void doesIsUnityMethodWorkCorrectly2()
+        public void NonUnitySquareMatrixIsNotUnityMatrix1()
         {
             int diagonalLength = 3;
             Matrix nonUnitySquareMatrix = new Matrix(diagonalLength, diagonalLength);
@@ -115,7 +115,7 @@ namespace Matrix.UnitTests
         }
 
         [TestMethod]
-        public void doesIsUnityMethodWorkCorrectly3()
+        public void NonUnitySquareMatrixIsNotUnityMatrix2()
         {
             int diagonalLength = 3;
             Matrix nonUnitySquareMatrix = new Matrix(diagonalLength, diagonalLength);
@@ -129,7 +129,7 @@ namespace Matrix.UnitTests
         }
 
         [TestMethod]
-        public void doesIsUnityMethodWorkCorrectly4()
+        public void NonSquareMatrixIsNotUnity()
         {
             int diagonalLength = 3;
             Matrix nonUnitySquareMatrix = new Matrix(diagonalLength, 4);
@@ -143,7 +143,7 @@ namespace Matrix.UnitTests
         }
 
         [TestMethod]
-        public void doesIsSymmetricMethodWorkCorrectly1()
+        public void MatrixIsSymmetric()
         {
             Matrix symmetricSquareMatrixWEqualDiagonal = new Matrix(3, 3);
 
@@ -161,7 +161,7 @@ namespace Matrix.UnitTests
         }
 
         [TestMethod]
-        public void doesIsSymmetricMethodWorkCorrectly2()
+        public void SymmetricMatrixWithNotEqualDiagonalIsSymmetric()
         {
             Matrix symmetricSquareMatrixWNotEqualDiagonal = new Matrix(3, 3);
 
@@ -179,7 +179,7 @@ namespace Matrix.UnitTests
         }
 
         [TestMethod]
-        public void doesIsSymmetricMethodWorkCorrectly3()
+        public void NonSquareMatrixIsNotSymmetric()
         {
             Matrix nonSquaredMatrix = new Matrix(3, 2);
 
@@ -194,7 +194,7 @@ namespace Matrix.UnitTests
         }
 
         [TestMethod]
-        public void doesIsSymmetricMethodWorkCorrectly4()
+        public void SquaredButNotSymmetricMatrixIsNotSymmetric()
         {
             Matrix squaredNonSymmetricMatrix = new Matrix(2, 2);
 
@@ -207,7 +207,7 @@ namespace Matrix.UnitTests
         } 
 
         [TestMethod]
-        public void doesMultiplicationWorkCorrectly1()
+        public void MultiplyMatrixWithDouble()
         {
             Matrix matrix = new Matrix(2, 2);
 
@@ -222,6 +222,12 @@ namespace Matrix.UnitTests
             Assert.AreEqual(matrix[1, 0], 5.0);
             Assert.AreEqual(matrix[0, 1], -2.0);
             Assert.AreEqual(matrix[1, 1], 0);
+        }
+
+        [TestMethod]
+        public void MultiplyMatrixWithMatrix()
+        {
+            
         }
     }
 }
