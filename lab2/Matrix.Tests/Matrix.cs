@@ -141,5 +141,69 @@ namespace Matrix.UnitTests
 
             Assert.AreEqual(nonUnitySquareMatrix.IsUnity(), false);
         }
+
+        [TestMethod]
+        public void doesIsSymmetricMethodWorkCorrectly1()
+        {
+            Matrix symmetricSquareMatrixWEqualDiagonal = new Matrix(3, 3);
+
+            symmetricSquareMatrixWEqualDiagonal[0, 0] = 1;
+            symmetricSquareMatrixWEqualDiagonal[0, 1] = 6;
+            symmetricSquareMatrixWEqualDiagonal[0, 2] = 5;
+            symmetricSquareMatrixWEqualDiagonal[1, 0] = 6;
+            symmetricSquareMatrixWEqualDiagonal[1, 1] = 1;
+            symmetricSquareMatrixWEqualDiagonal[1, 2] = 7;
+            symmetricSquareMatrixWEqualDiagonal[2, 0] = 5;
+            symmetricSquareMatrixWEqualDiagonal[2, 1] = 7;
+            symmetricSquareMatrixWEqualDiagonal[2, 2] = 1;
+
+            Assert.AreEqual(symmetricSquareMatrixWEqualDiagonal.IsSymmetric(), true);
+        }
+
+        [TestMethod]
+        public void doesIsSymmetricMethodWorkCorrectly2()
+        {
+            Matrix symmetricSquareMatrixWNotEqualDiagonal = new Matrix(3, 3);
+
+            symmetricSquareMatrixWNotEqualDiagonal[0, 0] = 1;
+            symmetricSquareMatrixWNotEqualDiagonal[0, 1] = 6;
+            symmetricSquareMatrixWNotEqualDiagonal[0, 2] = 5;
+            symmetricSquareMatrixWNotEqualDiagonal[1, 0] = 6;
+            symmetricSquareMatrixWNotEqualDiagonal[1, 1] = 2;
+            symmetricSquareMatrixWNotEqualDiagonal[1, 2] = 7;
+            symmetricSquareMatrixWNotEqualDiagonal[2, 0] = 5;
+            symmetricSquareMatrixWNotEqualDiagonal[2, 1] = 7;
+            symmetricSquareMatrixWNotEqualDiagonal[2, 2] = 3;
+
+            Assert.AreEqual(symmetricSquareMatrixWNotEqualDiagonal.IsSymmetric(), true);
+        }
+
+        [TestMethod]
+        public void doesIsSymmetricMethodWorkCorrectly3()
+        {
+            Matrix nonSquaredMatrix = new Matrix(3, 2);
+
+            nonSquaredMatrix[0, 0] = 1;
+            nonSquaredMatrix[1, 0] = 3;
+            nonSquaredMatrix[2, 0] = 4;
+            nonSquaredMatrix[0, 1] = 3;
+            nonSquaredMatrix[1, 1] = 2;
+            nonSquaredMatrix[2, 1] = 4;
+
+            Assert.AreEqual(nonSquaredMatrix.IsSymmetric(), false);
+        }
+
+        [TestMethod]
+        public void doesIsSymmetricMethodWorkCorrectly4()
+        {
+            Matrix squaredNonSymmetricMatrix = new Matrix(2, 2);
+
+            squaredNonSymmetricMatrix[0, 0] = 2;
+            squaredNonSymmetricMatrix[1, 0] = 3;
+            squaredNonSymmetricMatrix[0, 1] = 4;
+            squaredNonSymmetricMatrix[1, 1] = 5;
+
+            Assert.AreEqual(squaredNonSymmetricMatrix.IsSymmetric(), false);
+        } 
     }
 }
