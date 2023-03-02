@@ -205,5 +205,23 @@ namespace Matrix.UnitTests
 
             Assert.AreEqual(squaredNonSymmetricMatrix.IsSymmetric(), false);
         } 
+
+        [TestMethod]
+        public void doesMultiplicationWorkCorrectly1()
+        {
+            Matrix matrix = new Matrix(2, 2);
+
+            matrix[0, 0] = 1;
+            matrix[1, 0] = 2.5;
+            matrix[0, 1] = -1;
+            matrix[1, 1] = 0;
+
+            matrix = matrix * 2;
+
+            Assert.AreEqual(matrix[0, 0], 2.0);
+            Assert.AreEqual(matrix[1, 0], 5.0);
+            Assert.AreEqual(matrix[0, 1], -2.0);
+            Assert.AreEqual(matrix[1, 1], 0);
+        }
     }
 }

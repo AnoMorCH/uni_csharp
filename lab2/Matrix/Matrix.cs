@@ -84,7 +84,7 @@ public class Matrix
             return false;
         }
 
-        for (int i = 0; i < data.Length; i++) 
+        for (int i = 0; i < data.Length; i++)
         {
             if (!isEmptyCellPlace(i, rowsAmount) && data[i] != 1)
             {
@@ -100,9 +100,9 @@ public class Matrix
         return true;
     }
 
-    public bool IsSymmetric() 
+    public bool IsSymmetric()
     {
-        if (!IsSquared()) 
+        if (!IsSquared())
         {
             return false;
         }
@@ -114,7 +114,7 @@ public class Matrix
                 int index = rowIndex * columnsAmount + columnIndex;
                 int transposedIndex = columnIndex * columnsAmount + rowIndex;
 
-                if (data[index] != data[transposedIndex]) 
+                if (data[index] != data[transposedIndex])
                 {
                     return false;
                 }
@@ -122,5 +122,46 @@ public class Matrix
         }
 
         return true;
+    }
+
+    public static Matrix operator *(Matrix matrix, double multiplicationValue)
+    {
+        for (int columnIndex = 0; columnIndex < matrix.columnsAmount; columnIndex++)
+        {
+            for (int rowIndex = 0; rowIndex < matrix.rowsAmount; rowIndex++)
+            {
+                matrix[columnIndex, rowIndex] *= multiplicationValue;
+            }
+        }
+
+        return matrix;
+    }
+
+    public static Matrix operator *(Matrix matrixA, Matrix matrixB) 
+    {
+        if (matrixA.columnsAmount != matrixB.rowsAmount)
+        {
+            throw new RankException();
+        }
+
+        Matrix result = new Matrix(matrixA.rowsAmount, matrixB.columnsAmount);
+        double cellSum = 0;
+
+        for (int i = 0; i < matrixA.rowsAmount; i++)
+        {
+            for (int j = 0; j < matrixB.columnsAmount; j++)
+            {
+                cellSum = 0;
+
+                for (int k = 0; k < matrixA.columnsAmount; k++)
+                {
+                    cellSum += matrixA[i, k] * matrixB[k, j];
+                }
+
+                result[i, j] = cellSum;
+            }
+        }
+        
+        return result;
     }
 }
