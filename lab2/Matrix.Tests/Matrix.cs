@@ -317,7 +317,7 @@ namespace Matrix.UnitTests
         }
 
         [TestMethod]
-        public void MakeMatrixString()
+        public void MakeMatrixAString()
         {
             Matrix matrix = new Matrix(2, 2);
 
@@ -329,6 +329,17 @@ namespace Matrix.UnitTests
             string expectedString = "1 2 \n 3 4 \n ";
 
             Assert.AreEqual(matrix.ToString(), expectedString);
+        }
+
+        [TestMethod]
+        public void GetUnityMatrix()
+        {
+            Matrix matrix = Matrix.GetUnity(2);
+
+            Assert.AreEqual(matrix[0, 0], 1);
+            Assert.AreEqual(matrix[1, 0], 0);
+            Assert.AreEqual(matrix[0, 1], 0);
+            Assert.AreEqual(matrix[1, 1], 1);
         }
     }
 }
