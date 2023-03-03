@@ -227,7 +227,43 @@ namespace Matrix.UnitTests
         [TestMethod]
         public void MultiplyMatrixWithMatrix()
         {
-            
+            Matrix matrixA = new Matrix(3, 2);
+
+            matrixA[0, 0] = 1;
+            matrixA[1, 0] = 2;
+            matrixA[2, 0] = 3;
+            matrixA[0, 1] = 4;
+            matrixA[1, 1] = 5;
+            matrixA[2, 1] = 6;
+
+            Matrix matrixB = new Matrix(1, 3);
+
+            matrixB[0, 0] = 1;
+            matrixB[0, 1] = 2;
+            matrixB[0, 2] = 3;
+
+            Matrix resultedMatrix = matrixA * matrixB;
+
+            Assert.AreEqual(resultedMatrix[0, 0], 14);
+            Assert.AreEqual(resultedMatrix[0, 1], 32);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(RankException))]
+        public void MultiplyPoorlyMatrixWithMatrix()
+        {
+            Matrix matrixA = new Matrix(2, 2);
+
+            matrixA[0, 0] = 1;
+            matrixA[0, 1] = 2;
+            matrixA[1, 0] = 3;
+            matrixA[1, 1] = 4;
+
+            Matrix matrixB = new Matrix(1, 1);
+
+            matrixB[0, 0] = -1;
+
+            Matrix resultedMatrix = matrixA * matrixB;
         }
     }
 }
