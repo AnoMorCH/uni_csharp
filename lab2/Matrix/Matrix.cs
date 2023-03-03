@@ -202,4 +202,22 @@ public class Matrix
 
         return trace;
     }
+
+    public override string ToString()
+    {
+        string result = "";
+
+        for (int rowId = 0; rowId < rowsAmount; rowId++)
+        {
+            for (int columnId = 0; columnId < columnsAmount; columnId++)
+            {
+                int index = rowId * columnsAmount + columnId;
+                result += $"{data[index]} ";
+            }
+
+            result += "\n ";
+        }
+
+        return result;
+    }
 }
