@@ -220,4 +220,16 @@ public class Matrix
 
         return result;
     }
+
+    public static Matrix GetUnity(int size)
+    {
+        Matrix matrix = new Matrix(size, size);
+
+        for (int diagonalCellId = 0; diagonalCellId < size; diagonalCellId++)
+        {
+            matrix[diagonalCellId, diagonalCellId] = 1;
+        }
+
+        return matrix;
+    }
 }
