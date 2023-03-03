@@ -265,5 +265,26 @@ namespace Matrix.UnitTests
 
             Matrix resultedMatrix = matrixA * matrixB;
         }
+
+        [TestMethod]
+        public void ConvertMatrixExplicitly()
+        {
+            double[,] matrixBefore = new double[3, 2];
+            matrixBefore[0, 0] = 1;
+            matrixBefore[1, 0] = 2;
+            matrixBefore[2, 0] = 3;
+            matrixBefore[0, 1] = 4;
+            matrixBefore[1, 1] = 5;
+            matrixBefore[2, 1] = 6;
+
+            Matrix matrixAfter = (Matrix)matrixBefore;
+
+            Assert.AreEqual(matrixAfter[0, 0], 1);
+            Assert.AreEqual(matrixAfter[1, 0], 2);
+            Assert.AreEqual(matrixAfter[2, 0], 3);
+            Assert.AreEqual(matrixAfter[0, 1], 4);
+            Assert.AreEqual(matrixAfter[1, 1], 5);
+            Assert.AreEqual(matrixAfter[2, 1], 6);
+        }
     }
 }
