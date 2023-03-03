@@ -31,18 +31,18 @@ public class Matrix
         }
     }
 
-    public double this[int columnIndex, int rowIndex]
+    public double this[int columnId, int rowId]
     {
 
         get
         {
-            int index = rowIndex * columnsAmount + columnIndex;
+            int index = rowId * columnsAmount + columnId;
             return data[index];
         }
 
         set
         {
-            int index = rowIndex * columnsAmount + columnIndex;
+            int index = rowId * columnsAmount + columnId;
             data[index] = value;
         }
     }
@@ -54,11 +54,11 @@ public class Matrix
 
     public bool IsEmpty()
     {
-        for (int rowIndex = 0; rowIndex < rowsAmount; rowIndex++)
+        for (int rowId = 0; rowId < rowsAmount; rowId++)
         {
-            for (int columnIndex = 0; columnIndex < columnsAmount; columnIndex++)
+            for (int columnId = 0; columnId < columnsAmount; columnId++)
             {
-                int index = rowIndex * columnsAmount + columnIndex;
+                int index = rowId * columnsAmount + columnId;
 
                 if (data[index] != 0)
                 {
@@ -107,12 +107,12 @@ public class Matrix
             return false;
         }
 
-        for (int columnIndex = 1; columnIndex < columnsAmount; columnIndex++)
+        for (int columnId = 1; columnId < columnsAmount; columnId++)
         {
-            for (int rowIndex = 0; rowIndex < columnIndex; rowIndex++)
+            for (int rowId = 0; rowId < columnId; rowId++)
             {
-                int index = rowIndex * columnsAmount + columnIndex;
-                int transposedIndex = columnIndex * columnsAmount + rowIndex;
+                int index = rowId * columnsAmount + columnId;
+                int transposedIndex = columnId * columnsAmount + rowId;
 
                 if (data[index] != data[transposedIndex])
                 {
@@ -126,11 +126,11 @@ public class Matrix
 
     public static Matrix operator *(Matrix matrix, double multiplicationValue)
     {
-        for (int columnIndex = 0; columnIndex < matrix.columnsAmount; columnIndex++)
+        for (int columnId = 0; columnId < matrix.columnsAmount; columnId++)
         {
-            for (int rowIndex = 0; rowIndex < matrix.rowsAmount; rowIndex++)
+            for (int rowId = 0; rowId < matrix.rowsAmount; rowId++)
             {
-                matrix[columnIndex, rowIndex] *= multiplicationValue;
+                matrix[columnId, rowId] *= multiplicationValue;
             }
         }
 
@@ -162,6 +162,25 @@ public class Matrix
             }
         }
         
+        return result;
+    }
+    
+    public static explicit operator Matrix(double[,] arr)
+    {
+        // return new Matrix(arr.GetLength(1), arr.GetLength(0));
+        int rowsAmount = arr.GetLength(1);
+        int columnsAmount = arr.GetLength(0);
+
+        Matrix result = new Matrix(columnsAmount, rowsAmount);
+
+        for (int columnId = 0; columnId < columnsAmount; columnId++) 
+        {
+            for (int rowId = 0; rowId < rowsAmount; rowId++) 
+            {
+                result[columnId, rowId] = arr[columnId, rowId];
+            }
+        }
+
         return result;
     }
 }
