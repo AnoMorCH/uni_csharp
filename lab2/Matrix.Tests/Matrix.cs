@@ -286,5 +286,34 @@ namespace Matrix.UnitTests
             Assert.AreEqual(matrixAfter[1, 1], 5);
             Assert.AreEqual(matrixAfter[2, 1], 6);
         }
+
+        [TestMethod]
+        public void GetTraceOfSquareMatrix()
+        {
+            Matrix matrix = new Matrix(2, 2);
+
+            matrix[0, 0] = 1;
+            matrix[1, 0] = 2;
+            matrix[0, 1] = 3;
+            matrix[1, 1] = 4;
+
+            Assert.AreEqual(matrix.Trace(), 5);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(RankException))]
+        public void GetTraceOfNotSquareMatrix()
+        {
+            Matrix matrix = new Matrix(2, 3);
+
+            matrix[0, 0] = 1;
+            matrix[1, 0] = 2;
+            matrix[0, 1] = 3;
+            matrix[1, 1] = 4;
+            matrix[0, 2] = 5;
+            matrix[1, 2] = 6;
+
+            matrix.Trace();
+        }
     }
 }
