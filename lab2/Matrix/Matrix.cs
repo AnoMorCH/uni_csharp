@@ -137,7 +137,7 @@ public class Matrix
         return matrix;
     }
 
-    public static Matrix operator *(Matrix matrixA, Matrix matrixB) 
+    public static Matrix operator *(Matrix matrixA, Matrix matrixB)
     {
         if (matrixA.columnsAmount != matrixB.rowsAmount)
         {
@@ -161,21 +161,20 @@ public class Matrix
                 result[j, i] = cellSum;
             }
         }
-        
+
         return result;
     }
-    
+
     public static explicit operator Matrix(double[,] arr)
     {
-        // return new Matrix(arr.GetLength(1), arr.GetLength(0));
         int rowsAmount = arr.GetLength(1);
         int columnsAmount = arr.GetLength(0);
 
         Matrix result = new Matrix(columnsAmount, rowsAmount);
 
-        for (int columnId = 0; columnId < columnsAmount; columnId++) 
+        for (int columnId = 0; columnId < columnsAmount; columnId++)
         {
-            for (int rowId = 0; rowId < rowsAmount; rowId++) 
+            for (int rowId = 0; rowId < rowsAmount; rowId++)
             {
                 result[columnId, rowId] = arr[columnId, rowId];
             }
@@ -184,7 +183,7 @@ public class Matrix
         return result;
     }
 
-    public double Trace() 
+    public double Trace()
     {
         if (!IsSquared())
         {
@@ -231,5 +230,10 @@ public class Matrix
         }
 
         return matrix;
+    }
+
+    public static Matrix GetEmpty(int size)
+    {
+        return new Matrix(size, size);
     }
 }
