@@ -183,4 +183,23 @@ public class Matrix
 
         return result;
     }
+
+    public double Trace() 
+    {
+        if (!IsSquared())
+        {
+            throw new RankException();
+        }
+
+        int edge = columnsAmount;
+        double trace = 0;
+
+        for (int i = 0; i < edge; i++)
+        {
+            int step = i * (edge + 1);
+            trace += data[step];
+        }
+
+        return trace;
+    }
 }
