@@ -341,5 +341,16 @@ namespace Matrix.UnitTests
             Assert.AreEqual(matrix[0, 1], 0);
             Assert.AreEqual(matrix[1, 1], 1);
         }
+
+        [TestMethod]
+        public void GetEmptyMatrix()
+        {
+            Matrix matrix = Matrix.GetEmpty(2);
+
+            Assert.AreEqual(matrix[0, 0], 0);
+            Assert.AreEqual(matrix[1, 0], 0);
+            Assert.AreEqual(matrix[0, 1], 0);
+            Assert.AreEqual(matrix[1, 1], 0);
+        }
     }
 }
