@@ -315,5 +315,20 @@ namespace Matrix.UnitTests
 
             matrix.Trace();
         }
+
+        [TestMethod]
+        public void MakeMatrixString()
+        {
+            Matrix matrix = new Matrix(2, 2);
+
+            matrix[0, 0] = 1;
+            matrix[1, 0] = 2;
+            matrix[0, 1] = 3;
+            matrix[1, 1] = 4;
+
+            string expectedString = "1 2 \n 3 4 \n ";
+
+            Assert.AreEqual(matrix.ToString(), expectedString);
+        }
     }
 }
