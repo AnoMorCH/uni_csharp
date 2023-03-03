@@ -144,7 +144,7 @@ public class Matrix
             throw new RankException();
         }
 
-        Matrix result = new Matrix(matrixA.rowsAmount, matrixB.columnsAmount);
+        Matrix result = new Matrix(matrixB.columnsAmount, matrixA.rowsAmount);
         double cellSum = 0;
 
         for (int i = 0; i < matrixA.rowsAmount; i++)
@@ -155,10 +155,10 @@ public class Matrix
 
                 for (int k = 0; k < matrixA.columnsAmount; k++)
                 {
-                    cellSum += matrixA[i, k] * matrixB[k, j];
+                    cellSum += matrixA[k, i] * matrixB[j, k];
                 }
 
-                result[i, j] = cellSum;
+                result[j, i] = cellSum;
             }
         }
         
