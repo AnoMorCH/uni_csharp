@@ -352,5 +352,37 @@ namespace Matrix.UnitTests
             Assert.AreEqual(matrix[0, 1], 0);
             Assert.AreEqual(matrix[1, 1], 0);
         }
+
+        [TestMethod]
+        public void GetMatrixWithRightCipherUsingOnlyOneDigitNumbers()
+        {
+            string cipher = "1 2, 3 4, 5 6";
+            Matrix matrix;
+            bool canBeParsed = Matrix.TryParse(cipher, out matrix);
+            
+            Assert.AreEqual(canBeParsed, true);
+            Assert.AreEqual(matrix[0, 0], 1);
+            Assert.AreEqual(matrix[1, 0], 2);
+            Assert.AreEqual(matrix[0, 1], 3);
+            Assert.AreEqual(matrix[1, 1], 4);
+            Assert.AreEqual(matrix[0, 2], 5);
+            Assert.AreEqual(matrix[1, 2], 6);
+        }
+
+        [TestMethod]
+        public void GetMatrixWithRightCipherUsing()
+        {
+            string cipher = "1 22, 33 -4, 5 666.6";
+            Matrix matrix;
+            bool canBeParsed = Matrix.TryParse(cipher, out matrix);
+            
+            Assert.AreEqual(canBeParsed, true);
+            Assert.AreEqual(matrix[0, 0], 1);
+            Assert.AreEqual(matrix[1, 0], 22);
+            Assert.AreEqual(matrix[0, 1], 33);
+            Assert.AreEqual(matrix[1, 1], -4);
+            Assert.AreEqual(matrix[0, 2], 5);
+            Assert.AreEqual(matrix[1, 2], 666.6);
+        }
     }
 }
