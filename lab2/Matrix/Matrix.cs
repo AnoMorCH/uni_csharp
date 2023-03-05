@@ -236,4 +236,54 @@ public class Matrix
     {
         return new Matrix(size, size);
     }
+
+    // ! Cipher
+    //  ',' - separator
+    //  ' ' - divider
+    // Input: 1 2 3, 4 5 6
+    // Output:
+    // [
+    //     [1, 2, 3],
+    //     [4, 5, 6],
+    // ]
+    public static bool TryParse(string cipher, out Matrix matrix)
+    {
+        int GetColumnsAmount(char separator, char divider)
+        {
+            string firstRow = cipher.Split(separator)[0];
+            int columnsAmount = firstRow.Split(divider).Length;
+            return columnsAmount;
+        }
+
+        int GetRowsAmount(char separator)
+        {
+            return cipher.Split(separator).Length;
+        }
+
+        char separator = ',';
+        char divider = ' ';
+        int columnsAmount = GetColumnsAmount(separator, divider);
+        int rowsAmount = GetRowsAmount(separator);
+
+        string parsedCipher = cipher.Replace(separator.ToString(), "");
+        double[] numbers = Array.ConvertAll(parsedCipher.Split(divider), double.Parse);
+
+        if (numbers.Length != columnsAmount * rowsAmount) {
+            matrix = null;
+            return false;
+        }
+
+        matrix = new Matrix(columnsAmount, rowsAmount);
+        int numberId = 0;
+        for (int rowId = 0; rowId < rowsAmount; rowId++)
+        {
+            for (int columnId = 0; columnId < columnsAmount; columnId++)
+            {
+                matrix[columnId, rowId] = numbers[numberId];
+                numberId++;
+            }
+        }
+
+        return true;
+    }
 }
