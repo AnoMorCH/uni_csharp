@@ -12,6 +12,20 @@ namespace Matrix.UnitTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(RankException))]
+        public void IsThereEnoughColumns()
+        {
+            Matrix matrix = new Matrix(0, 4);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(RankException))]
+        public void IsThereEnoughRows()
+        {
+            Matrix matrix = new Matrix(4, 0);
+        }
+
+        [TestMethod]
         public void MatrixIsInitiated()
         {
             int columnsAmount = 2;

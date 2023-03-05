@@ -15,6 +15,16 @@ public class Matrix
 
     public Matrix(int columnsAmount, int rowsAmount)
     {
+        bool AreDimensionsCorrect() 
+        {
+            return columnsAmount > 0 && rowsAmount > 0;
+        }
+
+        if (!AreDimensionsCorrect())
+        {
+            throw new RankException("Rows and columns should be bigger than zero!");
+        }
+
         int dataLength = rowsAmount * columnsAmount;
 
         this.rowsAmount = rowsAmount;
